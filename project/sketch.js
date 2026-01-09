@@ -1,24 +1,35 @@
-let image;
-let field;
+let imageRaw;
+let image_;
+let ring;
 
 function preload() {
-    image = loadImage(
+    imageRaw = loadImage(
         Config.imageFilePath,
-        _image => { image = _image; },
-        () => { alert(`Error loading image "${Config.imageFilePath}".`) }
+        undefined,
+        () => {
+            alert(`Error loading image "${Config.imageFilePath}".`);
+        },
     );
 }
 
 function setup() {
-    field = new Field();
-
+    // frameRate(1);
     createCanvas(
         windowWidth,
         windowHeight,
     );
+
     background(Config.backgroundColor);
 
-    field.generateNails();
-    field.generateLines();
-    field.render();
+    image_ = new Image_(imageRaw);
+
+    ring = new Ring(image_);
+
+    if (!Config.lineAnimation) {
+        noLoop();
+    }
+}
+
+function draw() {
+    ring.render();
 }
